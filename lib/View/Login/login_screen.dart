@@ -185,7 +185,7 @@ loginFunc() async {
     setState(() {
       _isLoading = false;
     });
-    if (result["status"] == true) {
+    /*if (result["status"] == true) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(result['message']),
       ));
@@ -194,7 +194,7 @@ loginFunc() async {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(result['message']),
       ));
-    }
+    }*/
   } else {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("\u26A0   Please connect to internet and try again"),

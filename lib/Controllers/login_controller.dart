@@ -43,6 +43,9 @@ class LoginController extends GetxController {
         Get.offAll(HomeScreen());
         return loginData;
       } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(loginData['message']),
+        ));
         return loginData;
       }
     } finally {

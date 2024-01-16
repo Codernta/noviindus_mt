@@ -16,7 +16,7 @@ class BusListModel {
   });
 
   factory BusListModel.fromJson(Map<String, dynamic> json) => BusListModel(
-    bus:  List<Bus>.from(json["bus"].map((x) => Bus.fromJson(x))),
+    bus:  json.containsKey('bus')? List<Bus>.from(json["bus"].map((x) => Bus.fromJson(x))):[],
     status: json["status"] ?? false,
   );
 
