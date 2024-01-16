@@ -3,7 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:noviindus/Providers/bus_list_provider.dart';
+import 'package:noviindus/View/BusDetailScreen/bus_detail_screen.dart';
 import 'package:noviindus/View/Driver/driver_list_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +16,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+ late int? busNumbers = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    Provider.of<BusProvider>(context,listen: false).getBusListData(context: context).then((value) {
+      setState(() {
+        busNumbers = value!.bus.length;
+      });
+    } );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,11 +83,15 @@ class _HomeScreenState extends State<HomeScreen> {
         flex: 6,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context,index){
-            return busTile();
-          }),
+          child: Consumer<BusProvider>(
+            builder: (context, provider, child) {
+              return provider.loading ? loader(): ListView.builder(
+                  itemCount: provider.busListModel!.bus.length,
+                  itemBuilder: (context,index){
+                return busTile(provider,index);
+              });
+            }
+          ),
         ));
   }
 
@@ -181,11 +199,11 @@ class _HomeScreenState extends State<HomeScreen> {
   busListTitle() {
     return Padding(
       padding: const EdgeInsets.all(25.0),
-      child: Text('21 Buses Found',style: TextStyle(color: Color(0xff6b6b6b),fontSize: 16),),
+      child: Text('$busNumbers Buses Found',style: TextStyle(color: Color(0xff6b6b6b),fontSize: 16),),
     );
   }
 
-  busTile() {
+  busTile(BusProvider provider, int index) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -205,14 +223,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
 
         title: Text(
-          'KSRTC',
+          provider.busListModel!.bus[index].name,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
-          'Swift Scania P-Series',
+          provider.busListModel!.bus[index].type,
           style: TextStyle(
             fontSize: 13,
           ),
@@ -222,19 +240,31 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Color(0xfffc153b),
             borderRadius: BorderRadius.circular(6.0),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: ()=> Get.offAll(BusDetailScreen(busName: provider.busListModel!.bus[index].name, driverName: provider.busListModel!.bus[index].driverName, licenseNumber: provider.busListModel!.bus[index].driverLicenseNo)),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5),
-              child: Text(
-                'Manage',
-                style: TextStyle(
-                  color: Colors.white,
+              padding: const EdgeInsets.all(8.0),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5),
+                child: Text(
+                  'Manage',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  loader() {
+    return SizedBox(
+      height: 300,
+      child: Center(
+        child: CircularProgressIndicator(color: Color(0xfffc153b),),
       ),
     );
   }
