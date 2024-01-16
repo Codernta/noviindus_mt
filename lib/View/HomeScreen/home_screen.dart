@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
  late int? busNumbers = 0;
   @override
   void initState() {
-    // TODO: implement initState
     Provider.of<BusProvider>(context,listen: false).getBusListData(context: context).then((value) {
       setState(() {
         busNumbers = value!.bus.length;
@@ -79,13 +78,15 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
   busNameList() {
+    var checkBoolValue = Provider.of<BusProvider>(context);
     return Expanded(
         flex: 6,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Consumer<BusProvider>(
             builder: (context, provider, child) {
-              return provider.loading ? loader(): ListView.builder(
+              return checkBoolValue.loading ? loader(): checkBoolValue!.busListModel == null
+                  ? _noData() : ListView.builder(
                   itemCount: provider.busListModel!.bus.length,
                   itemBuilder: (context,index){
                 return busTile(provider,index);
@@ -95,23 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  /*cardPicture() {
-    final size= MediaQuery.of(context).size;
-    return Positioned(
-      bottom: 0,
-      right: 0,
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.black,// Adjust the height of the logo as needed
-            image: DecorationImage(
-                fit: BoxFit.fill ,
-                image: AssetImage('assets/images/bus_image.png',)
-            )
-        ),
-
-      ),
-    );
-  }*/
 
   itemName(String itemName, String description) {
     final size= MediaQuery.of(context).size;
@@ -265,6 +249,14 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 300,
       child: Center(
         child: CircularProgressIndicator(color: Color(0xfffc153b),),
+      ),
+    );
+  }
+
+  _noData() {
+    return Container(
+      child: Center(
+        child: Icon(Icons.dangerous_outlined, size: 100,color: Colors.red,),
       ),
     );
   }

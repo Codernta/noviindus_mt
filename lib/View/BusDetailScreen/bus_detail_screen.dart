@@ -102,7 +102,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
       flex: 4,
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40.0,vertical: 20),
-          child: Image.asset('assets/images/1by3.png',fit: BoxFit.contain,),
+          child: Image.asset('assets/images/1by3.png',fit: BoxFit.contain,width: 200,height: 350,),
         ),
     );
   }
