@@ -254,9 +254,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _noData() {
-    return Container(
+    return Transform(
+      transform: Matrix4.translationValues(0, -100, 0),
       child: Center(
-        child: Icon(Icons.dangerous_outlined, size: 100,color: Colors.red,),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.dangerous_outlined, size: 100,color: Colors.red,),
+            Text('Api Error Occured !')
+          ],
+        ),
       ),
     );
   }
