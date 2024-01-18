@@ -188,6 +188,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   busTile(BusProvider provider, int index) {
+    print("******** deails for bus detail screen *******");
+    print(provider.busListModel!.bus[index].name);
+    print(provider.busListModel!.bus[index].driverName);
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(

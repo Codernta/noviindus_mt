@@ -204,8 +204,8 @@ loginFunc() async {
 
   loader() {
     return SizedBox(
-      height: 16,
-      width: 16,
+      height: 25,
+      width: 25,
       child: CircularProgressIndicator(color: Colors.white,),
     );
   }}

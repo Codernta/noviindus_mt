@@ -32,7 +32,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
       backgroundColor: Color(0xff2b2b2b),
       toolbarHeight: 90,
       centerTitle: true,
-      title: Text('Driver List', style: TextStyle(color: Colors.white),),
+      title: Text(widget.busName, style: TextStyle(color: Colors.white),),
     );
   }
 
